@@ -1,0 +1,41 @@
+page {
+  --c-primary: #3b82f6;
+  --c-primary-dark: #2563eb;
+  --c-primary-light: #dbeafe;
+  --c-primary-bg: #eff6ff;
+  --c-success: #22c55e;
+  --c-danger: #ef4444;
+  --c-text: #1e293b;
+  --c-text-2: #475569;
+  --c-text-3: #94a3b8;
+  --c-bg: #f1f5f9;
+  --c-card: #ffffff;
+  --c-border: #e2e8f0;
+  --c-divider: #f1f5f9;
+
+  --r-sm: 8rpx;
+  --r-md: 12rpx;
+  --r-lg: 16rpx;
+  --r-xl: 24rpx;
+
+  --sp-xs: 8rpx;
+  --sp-sm: 12rpx;
+  --sp-md: 16rpx;
+  --sp-base: 24rpx;
+  --sp-lg: 32rpx;
+  --sp-xl: 40rpx;
+
+  --fs-xs: 22rpx;
+  --fs-sm: 24rpx;
+  --fs-base: 28rpx;
+  --fs-md: 30rpx;
+  --fs-lg: 32rpx;
+  --fs-xl: 36rpx;
+
+  background-color: var(--c-bg);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  color: var(--c-text);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}

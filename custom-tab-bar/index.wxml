@@ -1,0 +1,14 @@
+<view class="tab-bar">
+  <view class="tab-bar-item {{selected === 0 ? 'active' : ''}}" bindtap="switchTab" data-path="/pages/index/index" data-index="0">
+    <image class="tab-icon" src="{{selected === 0 ? '/images/tab-home-active.svg' : '/images/tab-home.svg'}}" />
+    <text class="tab-label">首页</text>
+  </view>
+  <view class="tab-bar-item {{selected === 1 ? 'active' : ''}}" bindtap="switchTab" data-path="/pages/library/library" data-index="1">
+    <image class="tab-icon" src="{{selected === 1 ? '/images/tab-library-active.svg' : '/images/tab-library.svg'}}" />
+    <text class="tab-label">书库</text>
+  </view>
+  <view class="tab-bar-item {{selected === 2 ? 'active' : ''}}" bindtap="switchTab" data-path="/pages/scan/scan" data-index="2">
+    <image class="tab-icon" src="{{selected === 2 ? '/images/tab-scan-active.svg' : '/images/tab-scan.svg'}}" />
+    <text class="tab-label">扫码</text>
+  </view>
+</view>

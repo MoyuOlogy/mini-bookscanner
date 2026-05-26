@@ -1,0 +1,81 @@
+<view class="page">
+  <view class="form">
+    <view class="cover-section" bindtap="onChooseCover">
+      <view class="cover-wrap" wx:if="{{cover}}">
+        <image src="{{cover}}" class="cover-img" mode="aspectFill" />
+        <view class="cover-remove" catchtap="onRemoveCover">✕</view>
+      </view>
+      <view class="cover-empty" wx:else>
+        <text class="cover-plus">+</text>
+        <text class="cover-text">添加封面</text>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <text class="label">ISBN</text>
+      <input class="input readonly" value="{{isbn}}" disabled />
+    </view>
+
+    <view class="form-group">
+      <text class="label">书名 <text class="required">*</text></text>
+      <input class="input" placeholder="请输入书名" value="{{title}}" bindinput="onInputChange" data-field="title" />
+    </view>
+
+    <view class="form-row">
+      <view class="form-group">
+        <text class="label">作者</text>
+        <input class="input" placeholder="请输入作者" value="{{author}}" bindinput="onInputChange" data-field="author" />
+      </view>
+      <view class="form-group">
+        <text class="label">出版社</text>
+        <input class="input" placeholder="请输入出版社" value="{{publisher}}" bindinput="onInputChange" data-field="publisher" />
+      </view>
+    </view>
+
+    <view class="form-row">
+      <view class="form-group">
+        <text class="label">出版日期</text>
+        <input class="input" placeholder="如：2024-01" value="{{publishDate}}" bindinput="onInputChange" data-field="publishDate" />
+      </view>
+      <view class="form-group">
+        <text class="label">页数</text>
+        <input class="input" type="number" placeholder="页数" value="{{pages}}" bindinput="onInputChange" data-field="pages" />
+      </view>
+    </view>
+
+    <view class="form-row">
+      <view class="form-group">
+        <text class="label">分类</text>
+        <input class="input" placeholder="如：计算机、文学" value="{{category}}" bindinput="onInputChange" data-field="category" />
+      </view>
+      <view class="form-group">
+        <text class="label">定价</text>
+        <input class="input" placeholder="如：58.00" value="{{price}}" bindinput="onInputChange" data-field="price" />
+      </view>
+    </view>
+
+    <view class="form-group">
+      <view class="label-row">
+        <text class="label">阅读状态</text>
+        <view class="read-toggle {{read ? 'active' : ''}}" bindtap="onToggleRead">
+          <text>{{read ? '已读' : '未读'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-group">
+      <text class="label">简介</text>
+      <textarea class="textarea" placeholder="书籍简介" value="{{description}}" bindinput="onInputChange" data-field="description" auto-height />
+    </view>
+
+    <view class="form-group">
+      <text class="label">备注</text>
+      <textarea class="textarea" placeholder="备注信息" value="{{notes}}" bindinput="onInputChange" data-field="notes" auto-height />
+    </view>
+
+    <view class="form-actions">
+      <button class="save-btn" bindtap="onSave" disabled="{{loading}}">{{loading ? '保存中...' : (isEdit ? '更新' : '保存')}}</button>
+      <button class="cancel-btn" bindtap="onCancel">取消</button>
+    </view>
+  </view>
+</view>

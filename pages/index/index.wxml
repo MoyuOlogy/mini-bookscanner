@@ -1,0 +1,59 @@
+<view class="page">
+  <view class="header">
+    <image src="/images/icon-logo.svg" class="logo" />
+    <view class="title">书籍录入系统</view>
+    <view class="subtitle">扫描条形码自动录入 · 支持手动编辑</view>
+  </view>
+
+  <view class="stats">
+    <view class="stat-item">
+      <text class="stat-num">{{bookCount}}</text>
+      <text class="stat-label">已录入</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-num stat-read">{{readCount}}</text>
+      <text class="stat-label">已阅读</text>
+    </view>
+  </view>
+
+  <view class="actions">
+    <view class="action-card" bindtap="onScan">
+      <view class="action-icon"><image src="/images/icon-scan.svg" class="icon-img" /></view>
+      <view class="action-info">
+        <text class="action-title">扫码录入</text>
+        <text class="action-desc">扫描ISBN条形码自动查询</text>
+      </view>
+    </view>
+    <view class="action-card" bindtap="onAddManual">
+      <view class="action-icon"><image src="/images/icon-edit.svg" class="icon-img" /></view>
+      <view class="action-info">
+        <text class="action-title">手动添加</text>
+        <text class="action-desc">手动填写书籍信息</text>
+      </view>
+    </view>
+    <view class="action-card" bindtap="onViewAll">
+      <view class="action-icon"><image src="/images/icon-book.svg" class="icon-img" /></view>
+      <view class="action-info">
+        <text class="action-title">查看书库</text>
+        <text class="action-desc">浏览所有已录入书籍</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="recent" wx:if="{{recentBooks.length > 0}}">
+    <view class="recent-header">
+      <text class="recent-title">最近录入</text>
+      <text class="recent-more" bindtap="onViewAll">查看全部</text>
+    </view>
+    <view class="recent-list">
+      <view class="recent-item {{item.read ? 'read' : ''}}" wx:for="{{recentBooks}}" wx:key="_id" bindtap="onBookTap" data-id="{{item._id || item.id}}">
+        <view class="recent-book-info">
+          <text class="recent-book-title">{{item.title || item.isbn || '未知书籍'}}</text>
+          <text class="recent-book-author">{{item.author || ''}}</text>
+        </view>
+        <text class="recent-read-tag" wx:if="{{item.read}}">已读</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,10 @@
+{
+  "name": "fetchBookInfo",
+  "version": "2.1.0",
+  "description": "根据ISBN查询书籍信息（多数据源）",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3",
+    "node-fetch": "^2.6.7"
+  }
+}

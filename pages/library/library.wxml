@@ -1,0 +1,54 @@
+<view class="page">
+  <view class="search-bar">
+    <view class="search-wrap">
+      <input class="search-input" placeholder="搜索书名、作者、ISBN..." value="{{searchKey}}" bindinput="onSearchInput" />
+      <view class="search-clear" wx:if="{{searchKey}}" bindtap="onClearSearch">✕</view>
+    </view>
+  </view>
+
+  <view class="books-header">
+    <view class="stats-row">
+      <text class="books-title">共 {{bookCount}} 本</text>
+      <text class="read-count" wx:if="{{readCount > 0}}">已读 {{readCount}} 本</text>
+    </view>
+    <view class="books-actions">
+      <text class="action-link" bindtap="onExport">导出</text>
+      <text class="action-link" bindtap="onImport">导入</text>
+    </view>
+  </view>
+
+  <view class="books-list">
+    <block wx:if="{{filteredBooks.length > 0}}">
+      <view class="book-item {{item.read ? 'read' : ''}}" wx:for="{{filteredBooks}}" wx:key="_id">
+        <view class="book-main" bindtap="onBookTap" data-id="{{item._id || item.id}}">
+          <view class="book-cover">
+            <image wx:if="{{item.cover}}" src="{{item.cover}}" class="cover-img" mode="aspectFill" />
+            <image wx:else src="/images/icon-book-placeholder.svg" class="cover-icon" />
+          </view>
+          <view class="book-info">
+            <view class="book-title">{{item.title || item.isbn || '未知书籍'}}</view>
+            <view class="book-author" wx:if="{{item.author}}">{{item.author}}</view>
+            <view class="book-meta">
+              <text wx:if="{{item.publisher}}">{{item.publisher}}</text>
+              <text wx:if="{{item.publishDate}}">{{item.publishDate}}</text>
+              <text wx:if="{{item.category}}">{{item.category}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="book-actions">
+          <view class="read-btn {{item.read ? 'active' : ''}}" catchtap="onToggleRead" data-id="{{item._id || item.id}}" data-read="{{item.read}}">
+            <text>{{item.read ? '已读' : '未读'}}</text>
+          </view>
+          <view class="delete-btn" catchtap="onDeleteBook" data-id="{{item._id || item.id}}">
+            <image src="/images/icon-delete.svg" class="delete-icon" />
+          </view>
+        </view>
+      </view>
+    </block>
+    <view wx:else class="empty-state">
+      <image src="/images/icon-empty.svg" class="empty-icon" />
+      <text>暂无书籍记录</text>
+      <text class="empty-hint">去扫码页添加第一本书吧</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,33 @@
+<view class="page">
+  <view class="scan-area">
+    <view class="scan-icon" bindtap="onScanCode">
+      <image src="/images/icon-scan-white.svg" class="scan-icon-img" />
+    </view>
+    <view class="scan-status">{{status}}</view>
+    <view class="scan-hint">点击上方图标扫描书籍条形码</view>
+
+    <view class="last-book" wx:if="{{lastBook}}" bindtap="onViewBook">
+      <image wx:if="{{lastBook.cover}}" src="{{lastBook.cover}}" class="last-cover" mode="aspectFill" />
+      <view class="last-info">
+        <text class="last-title">{{lastBook.title}}</text>
+        <text class="last-hint">点击查看详情</text>
+      </view>
+    </view>
+
+    <view class="divider">
+      <text class="divider-text">或</text>
+    </view>
+
+    <view class="manual-section">
+      <view class="manual-toggle" bindtap="toggleManualMode">
+        <text>{{manualMode ? '收起手动输入' : '手动输入ISBN'}}</text>
+      </view>
+      <view wx:if="{{manualMode}}" class="manual-input-area">
+        <input class="isbn-input" placeholder="输入ISBN号码" value="{{isbn}}" bindinput="onManualInput" />
+        <button class="query-btn" bindtap="onManualSubmit" disabled="{{loading}}">
+          {{loading ? '查询中...' : '查询'}}
+        </button>
+      </view>
+    </view>
+  </view>
+</view>
