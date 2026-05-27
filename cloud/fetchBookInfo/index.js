@@ -47,7 +47,14 @@ async function fetchFromDushu(isbn) {
   )
   const searchHtml = await searchResp.text()
 
-  const bookIdMatch = searchHtml.match(/href="\/book\/(\d+)\//)
+  if (searchHtml.includes('没有找到') || searchHtml.includes('未找到')) {
+    throw new Error('未找到')
+  }
+
+  const resultSection = searchHtml.match(/<div class="result-list">([\s\S]*?)<\/div>/)
+  const searchArea = resultSection ? resultSection[1] : searchHtml
+
+  const bookIdMatch = searchArea.match(/href="\/book\/(\d+)\//)
   if (!bookIdMatch) throw new Error('未找到')
 
   const detailResp = await fetchWithTimeout(
@@ -120,24 +127,27 @@ async function fetchDoubanDetail(url) {
   }
 
   const infoMatch = html.match(/<div id="info"[^>]*>([\s\S]*?)<\/div>/)
-  const infoText = infoMatch ? infoMatch[1].replace(/<[^>]+>/g, '\n') : ''
+  const infoText = infoMatch ? infoMatch[1].replace(/<[^>]+>/g, '\n').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#?\w+;/g, '') : ''
 
-  const author = extract(infoText, /作者[：:]\s*(.+?)(?:\n|$)/)
+  let author = ''
+  const authorLinks = infoMatch ? infoMatch[1].match(/作者[\s\S]*?<\/span>[\s\S]*?([\s\S]*?)<br/) : null
+  if (authorLinks) {
+    const authorHtml = authorLinks[1]
+    const names = []
+    const nameRegex = />([^<]+)<\/a>/g
+    let nameMatch
+    while ((nameMatch = nameRegex.exec(authorHtml)) !== null) {
+      const name = nameMatch[1].trim()
+      if (name && name !== '/') names.push(name)
+    }
+    author = names.join(', ')
+  }
+  if (!author) author = extract(infoText, /作者[：:]\s*(.+?)(?:\n|$)/)
+
   const publisher = extract(infoText, /出版社[：:]\s*(.+?)(?:\n|\/|$)/)
   const publishDate = extract(infoText, /出版年[：:]\s*(.+?)(?:\n|\/|$)/)
   const pages = extract(infoText, /页数[：:]\s*(\d+)/)
   const price = extract(infoText, /定价[：:]\s*(.+?)(?:\n|\/|$)/)
-  let category = extract(infoText, /分类[：:]\s*(.+?)(?:\n|$)/)
-
-  if (!category) {
-    const tags = []
-    const tagRegex = /<a[^>]*class="tag"[^>]*>([\s\S]*?)<\/a>/g
-    let tagMatch
-    while ((tagMatch = tagRegex.exec(html)) !== null && tags.length < 3) {
-      tags.push(tagMatch[1].trim())
-    }
-    if (tags.length) category = tags.join(', ')
-  }
 
   let description = ''
   const introMatch = html.match(/<div class="intro">([\s\S]*?)<\/div>/)
@@ -151,13 +161,7 @@ async function fetchDoubanDetail(url) {
     description = paragraphs.length ? paragraphs.join('\n') : introMatch[1].replace(/<[^>]+>/g, '').trim()
   }
 
-  let cover = ''
-  const imgMatch = html.match(/<img[^>]*src="(https:\/\/img\d*\.doubanio\.com\/cover\/[^"]+)"/)
-  if (imgMatch) {
-    cover = imgMatch[1]
-  }
-
-  return { title, author, publisher, publishDate, pages, price, category, description, cover, source: 'douban' }
+  return { title, author, publisher, publishDate, pages, price, category: '', description, cover: '', source: 'douban' }
 }
 
 async function fetchFromGoogleBooks(isbn) {
