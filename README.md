@@ -153,8 +153,8 @@ wx.cloud.init({
 ### 云函数设计
 
 `cloud/fetchBookInfo` 实现了多源查询 fallback：
-1. 读书网（dushu.com）— 解析搜索页 + 详情页
-2. 豆瓣（douban.com）— HTML 爬虫解析
+1. dushu.com — 解析搜索页 + 详情页
+2. douban — HTML 爬虫解析
 3. Google Books — REST API 查询
 
 每个源都有超时控制（8秒）和重试机制（2次）。
